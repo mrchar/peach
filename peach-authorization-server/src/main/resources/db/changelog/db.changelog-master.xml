@@ -4,5 +4,27 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
-
+    <changeSet id="v0.1.0" author="mrchar">
+        <preConditions>
+            <not>
+                <tableExists tableName="system_account"/>
+            </not>
+        </preConditions>
+        <sql endDelimiter=";">
+            create schema system
+        </sql>
+        <createSequence sequenceName="system_account_seq" dataType="bigint" incrementBy="50"/>
+        <createTable tableName="system_account">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="number" type="varchar(20)">
+                <constraints unique="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

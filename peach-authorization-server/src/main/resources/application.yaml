@@ -5,3 +5,5 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: validate
