@@ -10,9 +10,6 @@
                 <tableExists tableName="system_account"/>
             </not>
         </preConditions>
-        <sql endDelimiter=";">
-            create schema system
-        </sql>
         <createSequence sequenceName="system_account_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_account">
             <column name="id" type="bigint" autoIncrement="true">

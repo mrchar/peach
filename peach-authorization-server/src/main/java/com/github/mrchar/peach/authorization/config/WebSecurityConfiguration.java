@@ -1,5 +1,6 @@
 package com.github.mrchar.peach.authorization.config;
 
+import com.github.mrchar.peach.authorization.domain.security.RestLoginConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,8 +32,13 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers(HttpMethod.POST, "/api/register").permitAll();
+            authorize.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
             authorize.anyRequest().authenticated();
         });
+        httpSecurity.apply(new RestLoginConfigurer<HttpSecurity>()
+                .loginProcessingUrl("/api/login")
+                .usernameParameter("name")
+                .passwordParameter("password"));
         httpSecurity.formLogin(withDefaults());
         httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
