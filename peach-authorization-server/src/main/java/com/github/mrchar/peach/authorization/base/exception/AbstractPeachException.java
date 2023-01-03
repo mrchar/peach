@@ -1,4 +1,4 @@
-package com.github.mrchar.peach.authorization.exception;
+package com.github.mrchar.peach.authorization.base.exception;
 
 import lombok.Getter;
 
