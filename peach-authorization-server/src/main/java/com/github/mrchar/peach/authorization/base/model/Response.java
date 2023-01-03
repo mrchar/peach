@@ -2,20 +2,26 @@ package com.github.mrchar.peach.authorization.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+@Schema(title = "返回值")
 @Data
 public class Response<T> {
+    @Schema(title = "响应码")
     @JsonProperty("code")
     @JsonInclude(NON_NULL)
     private String code;
+
+    @Schema(title = "响应消息")
     @JsonProperty("message")
     @JsonInclude(NON_NULL)
     private String message;
 
-    @JsonProperty("content")
+    @Schema(title = "返回内容")
+    @JsonProperty("data")
     @JsonInclude(NON_NULL)
     private T data;
 
