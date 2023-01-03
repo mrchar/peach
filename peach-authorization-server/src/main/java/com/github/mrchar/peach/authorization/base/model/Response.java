@@ -4,15 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.lang.NonNull;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Schema(title = "返回值")
 @Data
 public class Response<T> {
+    @NonNull
     @Schema(title = "响应码")
     @JsonProperty("code")
-    @JsonInclude(NON_NULL)
     private String code;
 
     @Schema(title = "响应消息")
@@ -25,7 +26,7 @@ public class Response<T> {
     @JsonInclude(NON_NULL)
     private T data;
 
-    public Response(String code, String message, T data) {
+    public Response(@NonNull String code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
