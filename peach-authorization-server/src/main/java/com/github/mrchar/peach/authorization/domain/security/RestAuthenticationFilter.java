@@ -1,6 +1,5 @@
 package com.github.mrchar.peach.authorization.domain.security;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,19 +9,25 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher("/api/login",
+            "POST");
+    private static final Class<? extends LoginParams> DEFAULT_LOGON_PARAMS_TYPE = DefaultLoginParamsImpl.class;
+
+    private Class<? extends LoginParams> loginParamsType = DEFAULT_LOGON_PARAMS_TYPE;
 
     public RestAuthenticationFilter() {
-        super();
+        super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
     }
 
     public RestAuthenticationFilter(AuthenticationManager authenticationManager) {
-        super(authenticationManager);
+        super(DEFAULT_ANT_PATH_REQUEST_MATCHER, authenticationManager);
     }
 
     @Override
@@ -31,17 +36,16 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             throw new AuthenticationServiceException("Authentication content type not supported:" + request.getContentType());
         }
 
-        String username;
-        String password;
+        String username = "";
+        String password = "";
         try {
             BufferedReader reader = request.getReader();
-            JsonNode jsonNode = new ObjectMapper().readTree(reader);
+            LoginParams loginParams = new ObjectMapper().readValue(reader, loginParamsType);
+            if (loginParams != null) {
+                username = loginParams.getUsername().trim();
+                password = loginParams.getPassword();
+            }
 
-            JsonNode usernameJsonNode = jsonNode.get(this.getUsernameParameter());
-            username = (usernameJsonNode != null) ? usernameJsonNode.asText().trim() : "";
-
-            JsonNode passwordJsonNode = jsonNode.get(this.getPasswordParameter());
-            password = (passwordJsonNode != null) ? passwordJsonNode.asText() : "";
         } catch (IOException e) {
             throw new AuthenticationServiceException("Authentication request payload is empty");
         }
@@ -51,5 +55,17 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
+        authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
+    }
+
+    public Class<? extends LoginParams> loginParamsType() {
+        return this.loginParamsType;
+    }
+
+    public void setLoginParamsType(Class<? extends LoginParams> loginParamsType) {
+        this.loginParamsType = loginParamsType;
     }
 }

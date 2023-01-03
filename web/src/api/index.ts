@@ -13,6 +13,7 @@ export interface Account {
 }
 
 export const login = async (params: LoginParams): Promise<Account> => {
+    await axios.post("/login", params)
     return {number: "0001", name: params.name}
 }
 

@@ -35,11 +35,7 @@ public class WebSecurityConfiguration {
             authorize.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
             authorize.anyRequest().authenticated();
         });
-        httpSecurity.apply(new RestLoginConfigurer<HttpSecurity>()
-                .loginProcessingUrl("/api/login")
-                .usernameParameter("name")
-                .passwordParameter("password"));
-        httpSecurity.formLogin(withDefaults());
+        httpSecurity.apply(new RestLoginConfigurer());
         httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
         return httpSecurity.build();
