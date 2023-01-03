@@ -1,7 +1,7 @@
-package com.github.mrchar.peach.authorization.controller.model;
+package com.github.mrchar.peach.authorization.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.mrchar.peach.authorization.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;

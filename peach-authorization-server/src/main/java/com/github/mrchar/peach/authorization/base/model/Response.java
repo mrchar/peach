@@ -1,4 +1,4 @@
-package com.github.mrchar.peach.authorization.controller.model;
+package com.github.mrchar.peach.authorization.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

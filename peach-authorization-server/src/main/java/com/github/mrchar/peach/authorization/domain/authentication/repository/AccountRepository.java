@@ -1,6 +1,6 @@
-package com.github.mrchar.peach.authorization.repository;
+package com.github.mrchar.peach.authorization.domain.authentication.repository;
 
-import com.github.mrchar.peach.authorization.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

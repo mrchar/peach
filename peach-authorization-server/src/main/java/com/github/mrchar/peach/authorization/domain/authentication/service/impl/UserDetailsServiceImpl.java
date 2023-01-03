@@ -1,8 +1,8 @@
-package com.github.mrchar.peach.authorization.service.impl;
+package com.github.mrchar.peach.authorization.domain.authentication.service.impl;
 
-import com.github.mrchar.peach.authorization.model.AccountEntity;
-import com.github.mrchar.peach.authorization.model.UserDetailsImpl;
-import com.github.mrchar.peach.authorization.repository.AccountRepository;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.model.UserDetailsImpl;
+import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

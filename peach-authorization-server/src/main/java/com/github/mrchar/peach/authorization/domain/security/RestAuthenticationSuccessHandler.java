@@ -1,7 +1,7 @@
 package com.github.mrchar.peach.authorization.domain.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mrchar.peach.authorization.controller.model.Response;
+import com.github.mrchar.peach.authorization.base.model.Response;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

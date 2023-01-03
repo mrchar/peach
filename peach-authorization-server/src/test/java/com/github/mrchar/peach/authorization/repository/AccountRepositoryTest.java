@@ -1,6 +1,7 @@
 package com.github.mrchar.peach.authorization.repository;
 
-import com.github.mrchar.peach.authorization.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.github.mrchar.peach.authorization.model;
+package com.github.mrchar.peach.authorization.domain.authentication.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

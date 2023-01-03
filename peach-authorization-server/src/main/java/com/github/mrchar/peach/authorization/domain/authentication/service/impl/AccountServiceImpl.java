@@ -1,15 +1,15 @@
-package com.github.mrchar.peach.authorization.service.impl;
+package com.github.mrchar.peach.authorization.domain.authentication.service.impl;
 
-import com.github.mrchar.peach.authorization.model.AccountEntity;
-import com.github.mrchar.peach.authorization.model.RegisterOptions;
-import com.github.mrchar.peach.authorization.repository.AccountRepository;
-import com.github.mrchar.peach.authorization.service.AccountService;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.model.RegisterOptions;
+import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
+import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.github.mrchar.peach.authorization.service.impl.AccountNumberPrefix.LocalAccountPrefix;
+import static com.github.mrchar.peach.authorization.domain.authentication.service.impl.AccountNumberPrefix.LocalAccountPrefix;
 
 enum AccountNumberPrefix {
     LocalAccountPrefix("A");
