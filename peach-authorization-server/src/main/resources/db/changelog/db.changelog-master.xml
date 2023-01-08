@@ -60,7 +60,9 @@
             <column name="number" type="varchar(50)">
                 <constraints unique="true"/>
             </column>
-            <column name="verified" type="boolean"/>
+            <column name="verified" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="system_phone"
@@ -83,7 +85,9 @@
             <column name="address" type="varchar(200)">
                 <constraints unique="true"/>
             </column>
-            <column name="verified" type="boolean"/>
+            <column name="verified" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="system_email"
