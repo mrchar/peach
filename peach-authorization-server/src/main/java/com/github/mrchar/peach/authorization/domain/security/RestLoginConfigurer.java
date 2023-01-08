@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public final class RestLoginConfigurer extends AbstractHttpConfigurer<RestLoginConfigurer, HttpSecurity> {
 
     private final RestAuthenticationFilter authFilter = new RestAuthenticationFilter();
-    private AuthenticationSuccessHandler successHandler = new RestAuthenticationSuccessHandler();
+    private AuthenticationSuccessHandler successHandler;
     private AuthenticationFailureHandler failureHandler = new RestAuthenticationFailureHandler();
     private String loginProcessingUrl;
     private boolean permitAll;
@@ -71,8 +71,13 @@ public final class RestLoginConfigurer extends AbstractHttpConfigurer<RestLoginC
     @Override
     public void configure(HttpSecurity http) throws Exception {
         this.authFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        this.authFilter.setAuthenticationSuccessHandler(this.successHandler);
-        this.authFilter.setAuthenticationFailureHandler(this.failureHandler);
+        if (this.successHandler != null) {
+            this.authFilter.setAuthenticationSuccessHandler(this.successHandler);
+        }
+        if (this.failureHandler != null) {
+            this.authFilter.setAuthenticationFailureHandler(this.failureHandler);
+        }
+
         SessionAuthenticationStrategy sessionAuthenticationStrategy = http
                 .getSharedObject(SessionAuthenticationStrategy.class);
         if (sessionAuthenticationStrategy != null) {

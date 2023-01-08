@@ -27,7 +27,8 @@ class AccountRepositoryTest {
 
     @Test
     void findOneByName() {
-        AccountEntity accountEntity = this.accountRepository.findOneByName(name);
+        AccountEntity accountEntity = this.accountRepository.findOneByName(name)
+                .orElseThrow(() -> new RuntimeException("没有查询到账户名对应的账户"));
         assertEquals(number, accountEntity.getNumber());
         assertEquals(name, accountEntity.getName());
         assertEquals(password, accountEntity.getPassword());

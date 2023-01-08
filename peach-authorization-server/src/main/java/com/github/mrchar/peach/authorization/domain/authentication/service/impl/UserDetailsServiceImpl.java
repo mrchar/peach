@@ -15,8 +15,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AccountRepository accountRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AccountEntity accountEntity = this.accountRepository.findOneByName(username);
+    public UserDetails loadUserByUsername(String accountName) throws UsernameNotFoundException {
+        AccountEntity accountEntity = this.accountRepository.findOneByName(accountName)
+                .orElseThrow(() -> new UsernameNotFoundException("没有查找到账户名对应的账户"));
         return new UserDetailsImpl(accountEntity);
     }
 }

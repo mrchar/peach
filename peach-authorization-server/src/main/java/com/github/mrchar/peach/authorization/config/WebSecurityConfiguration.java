@@ -1,5 +1,7 @@
 package com.github.mrchar.peach.authorization.config;
 
+import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
+import com.github.mrchar.peach.authorization.domain.security.RestAuthenticationSuccessHandler;
 import com.github.mrchar.peach.authorization.domain.security.RestLoginConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class WebSecurityConfiguration {
+    private RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
+
+    public WebSecurityConfiguration(AccountRepository accountRepository) {
+        this.restAuthenticationSuccessHandler = new RestAuthenticationSuccessHandler(accountRepository);
+    }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -35,7 +43,9 @@ public class WebSecurityConfiguration {
             authorize.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
             authorize.anyRequest().authenticated();
         });
-        httpSecurity.apply(new RestLoginConfigurer());
+        httpSecurity.apply(
+                new RestLoginConfigurer()
+                        .successHandler(this.restAuthenticationSuccessHandler));
         httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
         return httpSecurity.build();
