@@ -2,6 +2,8 @@
 import {onMounted, ref} from "vue"
 import {login, LoginParams} from "../api"
 import {useRoute, useRouter} from "vue-router"
+import {ElMessage} from "element-plus"
+import "element-plus/theme-chalk/index.css"
 
 const router = useRouter()
 const route = useRoute()
@@ -15,7 +17,14 @@ const onSubmit = () => {
   login(loginParams.value)
       .then((res) => {
         console.log("Account: ", res)
-        router.push({path: "/profile", query: res as any})
+        if (!res.user || !res.user.name) {
+          router.push({path: "/profile/register"})
+        } else {
+          router.push({path: "/profile", query: res as any})
+        }
+      })
+      .catch(err => {
+        ElMessage.error(err.message)
       })
 }
 

@@ -11,11 +11,19 @@ export interface LoginParams {
 export interface Account {
     number: string,
     name: string,
+    user: User,
+}
+
+export interface User {
+    name: string,
+    gender: string,
+    birthday: Date,
+    phoneNumber: string,
+    emailAddress: string
 }
 
 export const login = async (params: LoginParams): Promise<Account> => {
-    await axios.post("/login", params)
-    return {number: "0001", name: params.name}
+    return await axios.post("/login", params)
 }
 
 export const register = async (params: LoginParams): Promise<Account> => {
