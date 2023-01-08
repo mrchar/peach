@@ -32,7 +32,7 @@
                 <tableExists tableName="system_email"/>
             </not>
         </preConditions>
-        <createSequence sequenceName="system_user_sequence" dataType="bigint" incrementBy="50"/>
+        <createSequence sequenceName="system_user_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_user">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -40,7 +40,7 @@
             <column name="account_id" type="bigint"/>
             <column name="name" type="varchar(20)"/>
             <column name="gender" type="varchar(20)"/>
-            <column name="birthday" type="date"/>
+            <column name="birthday" type="timestamp"/>
             <column name="phone_number" type="varchar(50)"/>
             <column name="email_address" type="varchar(200)"/>
         </createTable>

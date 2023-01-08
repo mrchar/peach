@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 @Getter
 @Entity
-@Table(name = "system_user")
+@Table(name = "`system_user`")
 public class UserEntity extends AbstractPersistable<Long> {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
@@ -18,6 +18,7 @@ public class UserEntity extends AbstractPersistable<Long> {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 

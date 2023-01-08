@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Getter
 @Entity
-@Table(name = "email")
+@Table(name = "system_email")
 public class EmailEntity extends AbstractPersistable<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
