@@ -24,4 +24,78 @@
             <column name="password" type="varchar(100)"/>
         </createTable>
     </changeSet>
+    <changeSet id="v0.2.0" author="mrchar">
+        <preConditions>
+            <not>
+                <tableExists tableName="system_user"/>
+                <tableExists tableName="system_phone"/>
+                <tableExists tableName="system_email"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="system_user_sequence" dataType="bigint" incrementBy="50"/>
+        <createTable tableName="system_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_id" type="bigint"/>
+            <column name="name" type="varchar(20)"/>
+            <column name="gender" type="varchar(20)"/>
+            <column name="birthday" type="date"/>
+            <column name="phone_number" type="varchar(50)"/>
+            <column name="email_address" type="varchar(200)"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="system_user"
+                baseColumnNames="account_id"
+                constraintName="fk_user_has_one_account"
+                referencedTableName="system_account"
+                referencedColumnNames="id"/>
+        <createSequence sequenceName="system_phone_seq" dataType="bigint" incrementBy="50"/>
+        <createTable tableName="system_phone">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="prefix" type="varchar(10)"/>
+            <column name="number" type="varchar(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="verified" type="boolean"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="system_phone"
+                baseColumnNames="number"
+                constraintName="fk_phone_belongs_to_user"
+                referencedTableName="system_user"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="system_user"
+                baseColumnNames="phone_number"
+                constraintName="fk_user_primary_phone_number"
+                referencedTableName="system_phone"
+                referencedColumnNames="number"/>
+        <createSequence sequenceName="system_email_seq" dataType="bigint" incrementBy="50"/>
+        <createTable tableName="system_email">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="address" type="varchar(200)">
+                <constraints unique="true"/>
+            </column>
+            <column name="verified" type="boolean"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="system_email"
+                baseColumnNames="user_id"
+                constraintName="fk_email_belongs_to_user"
+                referencedTableName="system_user"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="system_user"
+                baseColumnNames="email_address"
+                constraintName="fk_user_primary_email_address"
+                referencedTableName="system_email"
+                referencedColumnNames="address"/>
+    </changeSet>
 </databaseChangeLog>
