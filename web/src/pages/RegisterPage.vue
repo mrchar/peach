@@ -12,7 +12,6 @@ const registerParams = ref<LoginParams>({
 })
 
 
-
 const onClickRegister = () => {
   register(registerParams.value)
       .then((res) => {
@@ -23,10 +22,10 @@ const onClickRegister = () => {
 const nameInput = ref()
 const passwordInput = ref()
 
-onMounted(()=>{
+onMounted(() => {
   nameInput.value.focus()
   const query = route.query
-  if(query && query.name){
+  if (query && query.name) {
     registerParams.value.name = query.name as string
     passwordInput.value.focus()
   }
@@ -39,7 +38,7 @@ onMounted(()=>{
       <el-input
           ref="nameInput"
           v-model="registerParams.name"
-          @keyup.enter="$refs.passwordInput.focus()"
+          @keyup.enter="passwordInput.focus()"
       ></el-input>
     </el-form-item>
     <el-form-item label="密码">

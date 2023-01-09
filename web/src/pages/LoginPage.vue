@@ -2,7 +2,6 @@
 import {onMounted, ref} from "vue"
 import {login, LoginParams} from "../api"
 import {useRoute, useRouter} from "vue-router"
-import {ElMessage} from "element-plus"
 import "element-plus/theme-chalk/index.css"
 
 const router = useRouter()
@@ -16,15 +15,11 @@ const loginParams = ref<LoginParams>({
 const onSubmit = () => {
   login(loginParams.value)
       .then((res) => {
-        console.log("Account: ", res)
         if (!res.user || !res.user.name) {
           router.push({path: "/profile/register"})
         } else {
           router.push({path: "/profile", query: res as any})
         }
-      })
-      .catch(err => {
-        ElMessage.error(err.message)
       })
 }
 
@@ -57,7 +52,7 @@ onMounted(() => {
       <el-input
           ref="nameInput"
           v-model="loginParams.name"
-          @keyup.enter="$refs.passwordInput.focus()"
+          @keyup.enter="passwordInput.focus()"
       />
     </el-form-item>
     <el-form-item label="密码">

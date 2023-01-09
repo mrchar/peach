@@ -9,8 +9,8 @@ const emits = defineEmits(["success"])
 
 const params = ref<RegisterProfileParams>({
   name: "",
-  gender: null,
-  birthday: null,
+  gender: "",
+  birthday: "",
   phoneNumber: "",
   smsAuthToken: "",
   emailAddress: "",
@@ -61,7 +61,7 @@ function onSmsAuthTokenChange(token: string) {
       <el-radio-group v-model="params.gender">
         <el-radio label="male">男</el-radio>
         <el-radio label="female">女</el-radio>
-        <el-radio :label="null">隐私</el-radio>
+        <el-radio label="">隐私</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="生日">
@@ -73,7 +73,7 @@ function onSmsAuthTokenChange(token: string) {
     <el-form-item label="验证码">
       <div class="w-full flex gap-2">
         <el-input v-model="params.smsAuthToken" @change="onSmsAuthTokenChange">
-          <template v-if="smsAuthTokenSuffix.value!=='none'" #suffix>
+          <template v-if="smsAuthTokenSuffix!=='none'" #suffix>
             <el-icon>
               <SuccessFilled v-if="smsAuthTokenSuffix==='success'" color="green"/>
               <WarningFilled v-if="smsAuthTokenSuffix==='invalid'" color="red"/>

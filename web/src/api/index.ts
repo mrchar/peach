@@ -1,7 +1,35 @@
-import axios from "axios"
+import axios, {AxiosError, AxiosResponse} from "axios"
+import {ElMessage} from "element-plus"
 
 axios.defaults.baseURL = "http://localhost:8080/api/"
 axios.defaults.withCredentials = true
+
+axios.interceptors.response.use(
+    (res: AxiosResponse) => {
+        const response = res.data as Response
+        if (response && response.data) {
+            return response.data
+        }
+
+        return res.data
+    },
+    (err: AxiosError) => {
+        if (err.response) {
+            const response = err.response.data as Response
+            if (response && response.message) {
+                err.message = response.message
+                ElMessage.error({message: err.message})
+            }
+        }
+
+        return Promise.reject(err)
+    })
+
+export interface Response {
+    code: string | null
+    message: string | null
+    data: any
+}
 
 export interface LoginParams {
     name: string,
@@ -11,7 +39,7 @@ export interface LoginParams {
 export interface Account {
     number: string,
     name: string,
-    user: User,
+    user: User | null,
 }
 
 export interface User {
@@ -32,8 +60,8 @@ export const register = async (params: LoginParams): Promise<Account> => {
 
 export interface RegisterProfileParams {
     name: string
-    gender: string | null
-    birthday: Date | null
+    gender: string,
+    birthday: string,
     phoneNumber: string
     smsAuthToken: string
     emailAddress: string | null

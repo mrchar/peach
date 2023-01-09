@@ -4,7 +4,7 @@ import {useRoute} from "vue-router"
 import {Account} from "../api"
 
 const route = useRoute()
-const account = ref<Account>({number: "", name: ""})
+const account = ref<Account>({number: "", name: "", user: null})
 
 onMounted(() => {
   const query = route.query
@@ -12,6 +12,7 @@ onMounted(() => {
     account.value = {
       number: query.number as string,
       name: query.name as string,
+      user: null,
     }
   }
 })
