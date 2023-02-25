@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import {ref} from "vue"
 import {registerProfile, RegisterProfileParams, sendSmsAuthToken, verifySmsAuthToken} from "../../api"
 import {ElMessage} from "element-plus"
 import {Loading, SuccessFilled, WarningFilled} from "@element-plus/icons-vue"

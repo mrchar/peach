@@ -71,9 +71,8 @@ export async function registerProfile(params: RegisterProfileParams) {
     return {}
 }
 
-export async function sendSmsAuthToken(phoneNumber: string) {
-    console.log("发送短信验证码")
-    return {}
+export async function sendSmsAuthToken(phoneNumber: string): Promise<void> {
+    return axios.get("/sms/v-code", {params:{phoneNumber: phoneNumber}})
 }
 
 export async function verifySmsAuthToken(phoneNumber: string, smsAuthToken: string): Promise<boolean> {
