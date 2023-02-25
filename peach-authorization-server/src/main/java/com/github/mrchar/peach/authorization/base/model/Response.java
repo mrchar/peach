@@ -3,6 +3,7 @@ package com.github.mrchar.peach.authorization.base.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
@@ -30,6 +31,10 @@ public class Response<T> {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public static Response<Null> success(){
+        return success(null);
     }
 
     public static <T> Response<T> success(T data) {

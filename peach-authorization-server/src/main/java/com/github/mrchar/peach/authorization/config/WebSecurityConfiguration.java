@@ -41,6 +41,7 @@ public class WebSecurityConfiguration {
         httpSecurity.authorizeHttpRequests(authorize -> {
             authorize.requestMatchers(HttpMethod.POST, "/api/register").permitAll();
             authorize.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+            authorize.requestMatchers(HttpMethod.GET, "/api/sms/v-code").permitAll();
             authorize.anyRequest().authenticated();
         });
         httpSecurity.apply(
