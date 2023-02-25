@@ -9,6 +9,7 @@ export default defineConfig({
     plugins: [
         vue(),
         AutoImport({
+            imports: ["vue", "vue-router", "pinia", "@vueuse/core"],
             resolvers: [ElementPlusResolver()],
         }),
         Components({
