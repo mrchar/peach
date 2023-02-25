@@ -5,6 +5,7 @@ import com.github.mrchar.peach.authorization.domain.notification.service.SmsVeri
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -31,6 +32,10 @@ public class SimpleSmsVerificationServiceImpl implements SmsVerificationService 
 
     @Override
     public void send(String phoneNumber) {
+        if (!StringUtils.hasText(phoneNumber)) {
+            throw new IllegalArgumentException("phone number must not empty");
+        }
+        
         LocalDateTime now = LocalDateTime.now();
         VCodeWrapper wrapper = wrappers.get(phoneNumber);
         if (wrapper != null && wrapper.getExpireAt().isAfter(now.plus(refreshTimeout))) {
