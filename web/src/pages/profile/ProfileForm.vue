@@ -15,11 +15,25 @@ const params = ref<RegisterProfileParams>({
   emailAddress: "",
 })
 
+const phonePrefix = "+86"
+
+const phoneNumber = computed<string>({
+  get: (): string => {
+    return params.value.phoneNumber.substring(phonePrefix.length)
+  },
+  set: (value) => {
+    params.value.phoneNumber = phonePrefix + value
+  },
+})
+
 function onSubmit() {
   api.auth.registerProfile(params.value)
       .then(() => {
         ElMessage.success("登记成功")
         emits("success")
+      })
+      .catch(err => {
+        ElMessage.error(err.message)
       })
 }
 
@@ -51,6 +65,7 @@ function onSmsAuthTokenChange(token: string) {
   }
 }
 </script>
+
 <template>
   <el-form label-width="80px">
     <el-form-item label="用户名">
@@ -67,7 +82,11 @@ function onSmsAuthTokenChange(token: string) {
       <el-date-picker id="profile_register_form_date_picker" v-model="params.birthday"/>
     </el-form-item>
     <el-form-item label="手机号码">
-      <el-input v-model="params.phoneNumber"/>
+      <el-input v-model="phoneNumber">
+        <template #prefix>
+          <span>{{ phonePrefix }}</span>
+        </template>
+      </el-input>
     </el-form-item>
     <el-form-item label="验证码">
       <div class="w-full flex gap-2">
