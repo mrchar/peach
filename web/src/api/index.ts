@@ -4,7 +4,7 @@ import {Response} from "./base"
 
 import {ElMessage} from "element-plus"
 
-axios.defaults.baseURL = "http://localhost:8080/api/"
+axios.defaults.baseURL = "http://127.0.0.1:8080/api/"
 axios.defaults.withCredentials = true
 
 axios.interceptors.response.use(
