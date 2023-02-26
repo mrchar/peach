@@ -1,7 +1,7 @@
 package com.github.mrchar.peach.authorization.domain.authentication.service.impl;
 
+import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
 import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
-import com.github.mrchar.peach.authorization.domain.authentication.model.RegisterOptions;
 import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
 import org.apache.commons.lang3.RandomStringUtils;

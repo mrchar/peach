@@ -2,12 +2,14 @@ package com.github.mrchar.peach.authorization.domain.user.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Getter
 @Entity
 @Table(name = "system_phone")
 public class PhoneEntity extends AbstractPersistable<Long> {
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -18,6 +20,7 @@ public class PhoneEntity extends AbstractPersistable<Long> {
     @Column(name = "number")
     private String number;
 
+    @Setter
     @Column(name = "verified")
     private boolean verified;
 
@@ -43,5 +46,14 @@ public class PhoneEntity extends AbstractPersistable<Long> {
 
         this.prefix = prefix;
         this.number = number;
+    }
+
+    public PhoneEntity(String number) {
+        this.number = number;
+    }
+
+    public PhoneEntity(UserEntity user, String number) {
+        this.user = user;
+        this.setNumber(number);
     }
 }

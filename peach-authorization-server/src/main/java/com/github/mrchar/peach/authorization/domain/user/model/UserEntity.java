@@ -4,6 +4,7 @@ import com.github.mrchar.peach.authorization.domain.authentication.model.Account
 import com.github.mrchar.peach.authorization.domain.common.model.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.time.ZonedDateTime;
@@ -12,21 +13,27 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "`system_user`")
 public class UserEntity extends AbstractPersistable<Long> {
+    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private AccountEntity account;
+
+    @Setter
     @Column(name = "name")
     private String name;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "birthday")
+    @Setter
+    @Column(name = "birthday", columnDefinition = "date")
     private ZonedDateTime birthday;
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -48,6 +55,35 @@ public class UserEntity extends AbstractPersistable<Long> {
             updatable = false
     )
     private EmailEntity email;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(
+            AccountEntity account,
+            String name,
+            Gender gender,
+            ZonedDateTime birthday) {
+        this.account = account;
+        this.name = name;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
+
+    public UserEntity(
+            AccountEntity account,
+            String name,
+            Gender gender,
+            ZonedDateTime birthday,
+            String phoneNumber,
+            String emailAddress) {
+        this.account = account;
+        this.name = name;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+    }
 
     public void setPhone(PhoneEntity phone) {
         if (phone == null) {

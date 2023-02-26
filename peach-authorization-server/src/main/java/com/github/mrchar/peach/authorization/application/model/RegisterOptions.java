@@ -1,13 +1,9 @@
-package com.github.mrchar.peach.authorization.domain.authentication.model;
+package com.github.mrchar.peach.authorization.application.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class RegisterOptions {
     @JsonProperty("name")
     private String name;
@@ -15,5 +11,11 @@ public class RegisterOptions {
     @JsonProperty("password")
     private String password;
 
+    public RegisterOptions() {
+    }
 
+    public RegisterOptions(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 }
