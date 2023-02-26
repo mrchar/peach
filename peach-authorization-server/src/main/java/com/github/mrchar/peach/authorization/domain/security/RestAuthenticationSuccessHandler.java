@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -35,7 +36,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         }
 
         String responseBody = new ObjectMapper().writeValueAsString(Response.success("login success", data));
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8).toString());
         response.getWriter().write(responseBody);
     }
 }

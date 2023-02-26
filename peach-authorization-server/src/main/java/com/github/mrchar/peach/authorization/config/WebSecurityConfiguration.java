@@ -1,6 +1,8 @@
 package com.github.mrchar.peach.authorization.config;
 
 import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
+import com.github.mrchar.peach.authorization.domain.security.RestAccessDeniedHandlerImpl;
+import com.github.mrchar.peach.authorization.domain.security.RestAuthenticationEntryPoint;
 import com.github.mrchar.peach.authorization.domain.security.RestAuthenticationSuccessHandler;
 import com.github.mrchar.peach.authorization.domain.security.RestLoginConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +49,10 @@ public class WebSecurityConfiguration {
         httpSecurity.apply(
                 new RestLoginConfigurer()
                         .successHandler(this.restAuthenticationSuccessHandler));
+        httpSecurity.exceptionHandling(customizer -> {
+            customizer.authenticationEntryPoint(new RestAuthenticationEntryPoint());
+            customizer.accessDeniedHandler(new RestAccessDeniedHandlerImpl());
+        });
         httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
         return httpSecurity.build();
