@@ -24,7 +24,7 @@ public class AuthenticationApplicationServiceImpl implements AuthenticationAppli
 
     @Override
     public void sendSmsVerificationCode(String phoneNumber) {
-
+        this.phoneService.send(phoneNumber);
     }
 
     @Override

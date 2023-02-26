@@ -5,17 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.UUID;
+
 @Getter
 @Entity
 @Table(name = "system_phone")
-public class PhoneEntity extends AbstractPersistable<Long> {
+public class PhoneEntity extends AbstractPersistable<UUID> {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    @Column(name = "prefix")
-    private String prefix;
 
     @Column(name = "number")
     private String number;
@@ -29,27 +28,23 @@ public class PhoneEntity extends AbstractPersistable<Long> {
             throw new IllegalArgumentException("手机号码不能为空");
         }
 
-        // 默认为中国大陆地区前缀
-        String prefix = "+86";
-
-        // TODO: 使用工具类解析手机号码前缀
-
-        if (number.startsWith("0086")) {
-            number = number.replace("0086", "+86");
+        if (number.startsWith("00")) {
+            number = number.replaceAll("^00", "+");
         }
 
-        if (number.startsWith("+86")) {
-            prefix = "+86";
-        } else {
-            number = prefix + number;
+        // TODO: 检查手机号码归属地
+        if (!number.startsWith("+")) {
+            throw new IllegalArgumentException("手机号码必须以归属地前缀开始");
         }
 
-        this.prefix = prefix;
         this.number = number;
     }
 
+    public PhoneEntity() {
+    }
+
     public PhoneEntity(String number) {
-        this.number = number;
+        this.setNumber(number);
     }
 
     public PhoneEntity(UserEntity user, String number) {

@@ -8,11 +8,12 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity
 @Table(name = "`system_user`")
-public class UserEntity extends AbstractPersistable<Long> {
+public class UserEntity extends AbstractPersistable<UUID> {
     @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")

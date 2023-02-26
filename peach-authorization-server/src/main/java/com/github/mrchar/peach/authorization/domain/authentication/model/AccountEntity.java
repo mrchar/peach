@@ -8,10 +8,12 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.UUID;
+
 @Getter
 @Entity
 @Table(name = "system_account")
-public class AccountEntity extends AbstractPersistable<Long> {
+public class AccountEntity extends AbstractPersistable<UUID> {
     @Column(name = "number", updatable = false)
     private String number;
 

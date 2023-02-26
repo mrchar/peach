@@ -10,9 +10,8 @@
                 <tableExists tableName="system_account"/>
             </not>
         </preConditions>
-        <createSequence sequenceName="system_account_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_account">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="number" type="varchar(20)">
@@ -24,6 +23,7 @@
             <column name="password" type="varchar(100)"/>
         </createTable>
     </changeSet>
+
     <changeSet id="v0.2.0" author="mrchar">
         <preConditions>
             <not>
@@ -32,12 +32,11 @@
                 <tableExists tableName="system_email"/>
             </not>
         </preConditions>
-        <createSequence sequenceName="system_user_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_user">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="account_id" type="bigint"/>
+            <column name="account_id" type="uuid"/>
             <column name="name" type="varchar(20)"/>
             <column name="gender" type="varchar(20)"/>
             <column name="birthday" type="timestamp"/>
@@ -47,16 +46,14 @@
         <addForeignKeyConstraint
                 baseTableName="system_user"
                 baseColumnNames="account_id"
-                constraintName="fk_user_has_one_account"
+                constraintName="FK_USER_HAS_ON_ACCOUNT"
                 referencedTableName="system_account"
                 referencedColumnNames="id"/>
-        <createSequence sequenceName="system_phone_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_phone">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_id" type="bigint"/>
-            <column name="prefix" type="varchar(10)"/>
+            <column name="user_id" type="uuid"/>
             <column name="number" type="varchar(50)">
                 <constraints unique="true"/>
             </column>
@@ -66,22 +63,21 @@
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="system_phone"
-                baseColumnNames="number"
-                constraintName="fk_phone_belongs_to_user"
+                baseColumnNames="user_id"
+                constraintName="FK_PHONE_BELONGS_TO_USER"
                 referencedTableName="system_user"
                 referencedColumnNames="id"/>
         <addForeignKeyConstraint
                 baseTableName="system_user"
                 baseColumnNames="phone_number"
-                constraintName="fk_user_primary_phone_number"
+                constraintName="FK_USER_PRIMARY_PHONE_NUMBER"
                 referencedTableName="system_phone"
                 referencedColumnNames="number"/>
-        <createSequence sequenceName="system_email_seq" dataType="bigint" incrementBy="50"/>
         <createTable tableName="system_email">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_id" type="bigint"/>
+            <column name="user_id" type="uuid"/>
             <column name="address" type="varchar(200)">
                 <constraints unique="true"/>
             </column>
@@ -92,13 +88,13 @@
         <addForeignKeyConstraint
                 baseTableName="system_email"
                 baseColumnNames="user_id"
-                constraintName="fk_email_belongs_to_user"
+                constraintName="FK_EMAIL_BELONGS_TO_USER"
                 referencedTableName="system_user"
                 referencedColumnNames="id"/>
         <addForeignKeyConstraint
                 baseTableName="system_user"
                 baseColumnNames="email_address"
-                constraintName="fk_user_primary_email_address"
+                constraintName="FK_USER_PRIMARY_EMAIL_ADDRESS"
                 referencedTableName="system_email"
                 referencedColumnNames="address"/>
     </changeSet>
