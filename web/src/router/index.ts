@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router"
+import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router"
 import LoginPage from "../pages/LoginPage.vue"
 import LoginLayout from "../layout/LoginLayout.vue"
 import RegisterPage from "../pages/RegisterPage.vue"
@@ -23,5 +23,5 @@ const routes: Array<RouteRecordRaw> = [
 
 export default createRouter({
     routes,
-    history: createWebHashHistory(),
+    history: createWebHistory(),
 })
