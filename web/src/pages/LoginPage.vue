@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue"
-import {login, LoginParams} from "../api"
+import {api, LoginParams} from "../api"
 import {useRoute, useRouter} from "vue-router"
 import "element-plus/theme-chalk/index.css"
 
@@ -13,7 +13,7 @@ const loginParams = ref<LoginParams>({
 })
 
 const onSubmit = () => {
-  login(loginParams.value)
+  api.auth.login(loginParams.value)
       .then((res) => {
         if (!res.user || !res.user.name) {
           router.push({path: "/profile/register"})

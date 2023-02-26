@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {registerProfile, RegisterProfileParams, sendSmsAuthToken, verifySmsAuthToken} from "../../api"
+import {api, RegisterProfileParams} from "../../api"
 import {ElMessage} from "element-plus"
 import {Loading, SuccessFilled, WarningFilled} from "@element-plus/icons-vue"
 import "element-plus/theme-chalk/index.css"
@@ -16,7 +16,7 @@ const params = ref<RegisterProfileParams>({
 })
 
 function onSubmit() {
-  registerProfile(params.value)
+  api.auth.registerProfile(params.value)
       .then(() => {
         ElMessage.success("登记成功")
         emits("success")
@@ -24,7 +24,7 @@ function onSubmit() {
 }
 
 function onClickSendButton() {
-  sendSmsAuthToken(params.value.phoneNumber)
+  api.auth.sendSmsAuthToken(params.value.phoneNumber)
       .then(() => {
         ElMessage.success("发送成功")
       })
@@ -35,7 +35,7 @@ const smsAuthTokenSuffix = ref<string>("none")
 function onSmsAuthTokenChange(token: string) {
   if (token.length === 6) {
     smsAuthTokenSuffix.value = "loading"
-    verifySmsAuthToken(params.value.phoneNumber, params.value.smsAuthToken)
+    api.auth.verifySmsAuthToken(params.value.phoneNumber, params.value.smsAuthToken)
         .then((res) => {
           if (res) {
             smsAuthTokenSuffix.value = "success"

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue"
-import {LoginParams, register} from "../api"
+import {api, LoginParams} from "../api"
 import {useRoute, useRouter} from "vue-router"
 
 const router = useRouter()
@@ -13,7 +13,7 @@ const registerParams = ref<LoginParams>({
 
 
 const onClickRegister = () => {
-  register(registerParams.value)
+  api.auth.register(registerParams.value)
       .then((res) => {
         router.push({path: "/register/success", query: res as any})
       })

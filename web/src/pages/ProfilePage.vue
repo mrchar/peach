@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue"
 import {useRoute} from "vue-router"
-import {Account} from "../api"
+import {Account} from "../types"
+
 
 const route = useRoute()
 const account = ref<Account>({number: "", name: "", user: null})
