@@ -33,7 +33,7 @@ public class Response<T> {
         this.data = data;
     }
 
-    public static Response<Null> success(){
+    public static Response<Null> success() {
         return success(null);
     }
 
@@ -45,8 +45,8 @@ public class Response<T> {
         return new Response<>(CODE.SUCCESS.VALUE, message, data);
     }
 
-    public static <T> Response<T> failure(String code, T data) {
-        return failure(code, null, data);
+    public static <T> Response<T> failure(String code, String message) {
+        return failure(code, message, null);
     }
 
     public static <T> Response<T> failure(String code, String message, T data) {

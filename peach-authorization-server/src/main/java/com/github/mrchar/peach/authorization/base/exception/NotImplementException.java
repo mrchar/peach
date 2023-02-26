@@ -1,6 +1,4 @@
-package com.github.mrchar.peach.authorization.exception;
-
-import com.github.mrchar.peach.authorization.base.exception.AbstractPeachException;
+package com.github.mrchar.peach.authorization.base.exception;
 
 public class NotImplementException extends AbstractPeachException {
     public static final String CODE = "NotImplement";

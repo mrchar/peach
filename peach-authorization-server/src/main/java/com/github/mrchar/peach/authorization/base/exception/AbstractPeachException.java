@@ -10,8 +10,13 @@ public abstract class AbstractPeachException extends RuntimeException {
         this.code = code;
     }
 
-    public AbstractPeachException(String code, String message) {
+    protected AbstractPeachException(String code, String message) {
         super(message);
+        this.code = code;
+    }
+
+    protected AbstractPeachException(String code, String message, Throwable cause) {
+        super(message, cause);
         this.code = code;
     }
 }
