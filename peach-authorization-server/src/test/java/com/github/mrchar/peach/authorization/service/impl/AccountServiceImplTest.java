@@ -1,6 +1,5 @@
 package com.github.mrchar.peach.authorization.service.impl;
 
-import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
 import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
 import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
@@ -33,7 +32,7 @@ class AccountServiceImplTest {
                     AccountEntity accountEntity = invocation.getArgument(0);
                     return accountEntity;
                 });
-        AccountEntity registered = accountService.register(new RegisterOptions(name, password));
+        AccountEntity registered = accountService.register(new AccountEntity(name, password));
         assertThat(registered).isNotNull();
         assertThat(registered.getNumber()).isNotNull();
         assertThat(registered.getName()).isEqualTo(name);

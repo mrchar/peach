@@ -1,6 +1,5 @@
 package com.github.mrchar.peach.authorization.domain.user.service.impl;
 
-import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
 import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
 import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
 import com.github.mrchar.peach.authorization.domain.common.model.Gender;
@@ -29,7 +28,7 @@ class UserServiceImplTest {
     @Test
     @Transactional
     void updateUser() {
-        AccountEntity accountEntity = this.accountService.register(new RegisterOptions(ACCOUNT_NAME, "password"));
+        AccountEntity accountEntity = this.accountService.register(new AccountEntity(ACCOUNT_NAME, "password"));
         UserEntity userEntity = this.userService.updateUser(ACCOUNT_NAME, new UserEntity(
                 accountEntity,
                 "name",

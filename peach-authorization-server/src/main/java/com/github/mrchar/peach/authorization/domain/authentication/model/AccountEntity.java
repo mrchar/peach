@@ -29,6 +29,11 @@ public class AccountEntity extends AbstractPersistable<UUID> {
     public AccountEntity() {
     }
 
+    public AccountEntity(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public AccountEntity(String number, String name, String password) {
         this.number = number;
         this.name = name;

@@ -1,12 +1,10 @@
 package com.github.mrchar.peach.authorization.api.controller;
 
-import com.github.mrchar.peach.authorization.api.model.AccountSchema;
 import com.github.mrchar.peach.authorization.application.AuthenticationApplicationService;
-import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
+import com.github.mrchar.peach.authorization.application.model.AccountSchema;
+import com.github.mrchar.peach.authorization.application.model.RegisterOption;
 import com.github.mrchar.peach.authorization.application.model.SetProfileOption;
 import com.github.mrchar.peach.authorization.base.model.Response;
-import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
-import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Null;
@@ -20,15 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AccountService accountService;
     private final AuthenticationApplicationService authenticationApplicationService;
 
 
     @Operation(summary = "注册账户")
     @PostMapping("/register")
-    public Response<AccountSchema> register(@RequestBody RegisterOptions options) {
-        AccountEntity registered = accountService.register(options);
-        return Response.success(AccountSchema.fromEntity(registered));
+    public Response<AccountSchema> register(@RequestBody RegisterOption option) {
+        AccountSchema accountSchema = this.authenticationApplicationService.register(option);
+        return Response.success(accountSchema);
     }
 
     @Operation(summary = "获取短信验证码")
@@ -39,11 +36,20 @@ public class AuthenticationController {
         return Response.success();
     }
 
+    @Operation(summary = "获取用户信息")
+    @GetMapping("/self/profile")
+    public Response<AccountSchema> getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AccountSchema accountSchema = this.authenticationApplicationService
+                .getProfileByAccountName(authentication.getName());
+        return Response.success(accountSchema);
+    }
+
     @Operation(summary = "登记用户信息")
     @PutMapping("/self/profile")
-    public Response<Null> setUserProfile(@RequestBody SetProfileOption request) {
+    public Response<AccountSchema> setUserProfile(@RequestBody SetProfileOption request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        this.authenticationApplicationService.setProfile(authentication.getName(), request);
-        return Response.success();
+        AccountSchema accountSchema = this.authenticationApplicationService.setProfile(authentication.getName(), request);
+        return Response.success(accountSchema);
     }
 }

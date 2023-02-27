@@ -1,9 +1,9 @@
 package com.github.mrchar.peach.authorization.domain.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mrchar.peach.authorization.application.model.AccountSchema;
 import com.github.mrchar.peach.authorization.base.model.Response;
 import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
-import com.github.mrchar.peach.authorization.domain.authentication.model.AccountSchema;
 import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

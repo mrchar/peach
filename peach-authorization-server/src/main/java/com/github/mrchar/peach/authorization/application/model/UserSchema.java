@@ -1,6 +1,7 @@
-package com.github.mrchar.peach.authorization.domain.user.model;
+package com.github.mrchar.peach.authorization.application.model;
 
 import com.github.mrchar.peach.authorization.domain.common.model.Gender;
+import com.github.mrchar.peach.authorization.domain.user.model.UserEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,8 +27,11 @@ public class UserSchema {
     }
 
     public static UserSchema fromEntity(UserEntity entity) {
-        return new UserSchema(entity.getName(),
-                entity.getGender(), entity.getBirthday(),
-                entity.getPhoneNumber(), entity.getEmailAddress());
+        return new UserSchema(
+                entity.getName(),
+                entity.getGender(),
+                entity.getBirthday(),
+                entity.getPhoneNumber(),
+                entity.getEmailAddress());
     }
 }

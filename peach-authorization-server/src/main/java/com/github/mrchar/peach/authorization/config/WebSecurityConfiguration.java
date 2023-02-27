@@ -41,18 +41,25 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorize -> {
+            authorize.requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger/**").permitAll();
             authorize.requestMatchers(HttpMethod.POST, "/api/register").permitAll();
             authorize.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
             authorize.requestMatchers(HttpMethod.GET, "/api/sms/v-code").permitAll();
             authorize.anyRequest().authenticated();
         });
+
         httpSecurity.apply(
                 new RestLoginConfigurer()
                         .successHandler(this.restAuthenticationSuccessHandler));
+
         httpSecurity.exceptionHandling(customizer -> {
             customizer.authenticationEntryPoint(new RestAuthenticationEntryPoint());
             customizer.accessDeniedHandler(new RestAccessDeniedHandlerImpl());
         });
+
+        httpSecurity.formLogin().disable();
+        httpSecurity.httpBasic().disable();
+        httpSecurity.logout().disable();
         httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
         return httpSecurity.build();

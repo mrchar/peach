@@ -1,25 +1,37 @@
 package com.github.mrchar.peach.authorization.application.impl;
 
-import com.github.mrchar.peach.authorization.api.model.AccountSchema;
 import com.github.mrchar.peach.authorization.application.AuthenticationApplicationService;
-import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
+import com.github.mrchar.peach.authorization.application.model.AccountSchema;
+import com.github.mrchar.peach.authorization.application.model.RegisterOption;
 import com.github.mrchar.peach.authorization.application.model.SetProfileOption;
+import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
+import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
+import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
 import com.github.mrchar.peach.authorization.domain.user.model.UserEntity;
-import com.github.mrchar.peach.authorization.domain.user.model.UserSchema;
+import com.github.mrchar.peach.authorization.domain.user.repository.UserRepository;
 import com.github.mrchar.peach.authorization.domain.user.service.PhoneService;
 import com.github.mrchar.peach.authorization.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationApplicationServiceImpl implements AuthenticationApplicationService {
+    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
+    private final AccountService accountService;
     private final UserService userService;
     private final PhoneService phoneService;
 
     @Override
-    public AccountSchema register(RegisterOptions options) {
-        return null;
+    @Transactional
+    public AccountSchema register(RegisterOption option) {
+        AccountEntity registered = this.accountService.register(new AccountEntity(
+                option.getName(),
+                option.getPassword()
+        ));
+        return AccountSchema.fromEntity(registered);
     }
 
     @Override
@@ -28,14 +40,21 @@ public class AuthenticationApplicationServiceImpl implements AuthenticationAppli
     }
 
     @Override
-    public UserSchema setProfile(String accountName, SetProfileOption userEntity) {
+    public AccountSchema setProfile(String accountName, SetProfileOption option) {
         // 检查验证码
-        boolean verified = this.phoneService.verify(userEntity.getPhoneNumber(), userEntity.getSmsVerificationCode());
+        boolean verified = this.phoneService.verify(option.getPhoneNumber(), option.getSmsVerificationCode());
         if (!verified) {
             throw new IllegalArgumentException("验证码不正确");
         }
 
-        this.userService.updateUser(accountName, new UserEntity());
-        return null;
+        UserEntity userEntity = this.userService.updateUser(accountName, new UserEntity());
+        return AccountSchema.fromEntity(userEntity.getAccount());
+    }
+
+    @Override
+    public AccountSchema getProfileByAccountName(String name) {
+        AccountEntity accountEntity = this.accountRepository.findOneByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("用户不存在"));
+        return AccountSchema.fromEntity(accountEntity);
     }
 }

@@ -1,6 +1,5 @@
 package com.github.mrchar.peach.authorization.domain.authentication.service.impl;
 
-import com.github.mrchar.peach.authorization.application.model.RegisterOptions;
 import com.github.mrchar.peach.authorization.domain.authentication.model.AccountEntity;
 import com.github.mrchar.peach.authorization.domain.authentication.repository.AccountRepository;
 import com.github.mrchar.peach.authorization.domain.authentication.service.AccountService;
@@ -31,10 +30,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountEntity register(RegisterOptions options) {
+    public AccountEntity register(AccountEntity option) {
         String number = generateLocalAccountNumber();
-        String encodedPassword = passwordEncoder.encode(options.getPassword());
-        AccountEntity accountEntity = new AccountEntity(number, options.getName(), encodedPassword);
+        String encodedPassword = passwordEncoder.encode(option.getPassword());
+        AccountEntity accountEntity = new AccountEntity(number, option.getName(), encodedPassword);
         this.accountRepository.save(accountEntity);
         return accountEntity;
     }
