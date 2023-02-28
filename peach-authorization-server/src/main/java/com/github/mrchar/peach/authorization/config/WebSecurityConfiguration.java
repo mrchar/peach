@@ -16,8 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 public class WebSecurityConfiguration {
     private RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -60,7 +58,6 @@ public class WebSecurityConfiguration {
         httpSecurity.formLogin().disable();
         httpSecurity.httpBasic().disable();
         httpSecurity.logout().disable();
-        httpSecurity.cors(withDefaults());
         httpSecurity.csrf().disable();
         return httpSecurity.build();
     }

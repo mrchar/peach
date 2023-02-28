@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        Response<Object> failureResponse = Response.failure("AccessDenied", "请先登录");
+        Response<Object> failureResponse = Response.failure("UnAuthenticated", "需要登录才能执行");
         response.setContentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8).toString());
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(new ObjectMapper().writeValueAsString(failureResponse));
