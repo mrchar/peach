@@ -1,27 +1,46 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router"
-import LoginPage from "../pages/LoginPage.vue"
 import LoginLayout from "../layout/LoginLayout.vue"
-import RegisterPage from "../pages/RegisterPage.vue"
-import ProfilePage from "../pages/ProfilePage.vue"
-import RegisterResultPage from "../pages/RegisterResultPage.vue"
-import ProfileRegisterPage from "../pages/profile/ProfileRegisterPage.vue"
+import {useAuth} from "../store/authentication"
 
 const routes: Array<RouteRecordRaw> = [
-    {path: "/", redirect: "/login"},
+    {path: "/", redirect: "/profile"},
     {
         path: "/",
         component: LoginLayout,
         children: [
-            {path: "/login", component: LoginPage},
-            {path: "/register", component: RegisterPage},
-            {path: "/register/success", component: RegisterResultPage},
-            {path: "/profile/register", component: ProfileRegisterPage},
+            {path: "/login", component: () => import("../pages/LoginPage.vue")},
+            {path: "/register", component: () => import("../pages/RegisterPage.vue")},
+            {path: "/register/success", component: () => import("../pages/RegisterResultPage.vue")},
+            {path: "/profile/register", component: () => import("../pages/profile/ProfileRegisterPage.vue")},
         ],
     },
-    {path: "/profile", component: ProfilePage},
+    {path: "/profile", component: () => import("../pages/ProfilePage.vue")},
 ]
 
-export default createRouter({
+export const router = createRouter({
     routes,
     history: createWebHistory(),
 })
+
+const doesNotNeedAuthenticated: string[] = ["/register", "/login", "/register/success"]
+
+router.beforeEach((to, from) => {
+    const store = useAuth()
+
+    const needAuthenticated = !doesNotNeedAuthenticated.includes(to.path)
+    const authenticated = store.authenticated === "Authenticated"
+
+    if (needAuthenticated && !authenticated) {
+        return {path: "/login"}
+    }
+
+    // 如果访问登录页，但已经登录，则跳转到目标页
+    if (!needAuthenticated && authenticated) {
+        if (to.query && to.query.referer) {
+            return {path: to.query.referer as string}
+        }
+        return {path: "/"}
+    }
+})
+
+export default router

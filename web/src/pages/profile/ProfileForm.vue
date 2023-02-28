@@ -19,7 +19,10 @@ const phonePrefix = "+86"
 
 const phoneNumber = computed<string>({
   get: (): string => {
-    return params.value.phoneNumber.substring(phonePrefix.length)
+    if (params.value.phoneNumber) {
+      return params.value.phoneNumber.substring(phonePrefix.length)
+    }
+    return ""
   },
   set: (value) => {
     params.value.phoneNumber = phonePrefix + value
@@ -38,16 +41,22 @@ function onSubmit() {
 }
 
 function onClickSendButton() {
-  api.auth.sendSmsAuthToken(params.value.phoneNumber)
-      .then(() => {
-        ElMessage.success("发送成功")
-      })
+  if (params.value.phoneNumber) {
+    api.auth.sendSmsAuthToken(params.value.phoneNumber)
+        .then(() => {
+          ElMessage.success("发送成功")
+        })
+  }
 }
 
 const smsAuthTokenSuffix = ref<string>("none")
 
 function onSmsAuthTokenChange(token: string) {
   if (token.length === 6) {
+    if (!params.value.phoneNumber) {
+      return
+    }
+    
     smsAuthTokenSuffix.value = "loading"
     api.auth.verifySmsAuthToken(params.value.phoneNumber, params.value.smsAuthToken)
         .then((res) => {

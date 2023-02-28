@@ -3,6 +3,9 @@ import {onMounted, ref} from "vue"
 import {api, LoginParams} from "../api"
 import {useRoute, useRouter} from "vue-router"
 import "element-plus/theme-chalk/index.css"
+import {useAuth} from "../store/authentication"
+
+const store = useAuth()
 
 const router = useRouter()
 const route = useRoute()
@@ -12,14 +15,18 @@ const loginParams = ref<LoginParams>({
   password: "",
 })
 
+// 点击登录按钮时调用
 const onSubmit = () => {
   api.auth.login(loginParams.value)
       .then((res) => {
-        if (!res.user || !res.user.name) {
-          router.push({path: "/profile/register"})
-        } else {
-          router.push({path: "/profile", query: res as any})
-        }
+        store.setAuthenticated("Authenticated")
+            .then(() => {
+              if (!res.user || !res.user.name) {
+                router.push({path: "/profile/register"})
+              } else {
+                router.push({path: "/profile", query: res as any})
+              }
+            })
       })
 }
 
