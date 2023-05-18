@@ -1,0 +1,32 @@
+plugins {
+    id 'me.qoomon.git-versioning' version '6.4.2'
+}
+
+allprojects {
+    apply plugin: 'me.qoomon.git-versioning'
+
+    group = 'com.github.mrchar'
+    version = '0.0.0-SNAPSHOT'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    gitVersioning.apply {
+        refs {
+            considerTagsOnBranches = true
+            branch('release/v(?<version>.+)') {
+                version = '${ref.version}-SNAPSHOT+${commit.short}'
+            }
+            tag('v(?<version>.+)') {
+                version = '${ref.version}'
+            }
+        }
+
+        // optional fallback configuration in case of no matching ref configuration
+        rev {
+            version = 'unversioned-${commit}'
+        }
+    }
+}
