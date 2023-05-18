@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        maven { url "https://repo.spring.io/release" }
+    }
+}
+rootProject.name = 'peach'
+include 'peach-authorization-server'
+include 'peach-authorization-web'

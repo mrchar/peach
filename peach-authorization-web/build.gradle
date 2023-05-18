@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.node-gradle.node' version '4.0.0'
+}
+
+node {
+    download = true // 下载node到项目中
+    version = "16.14.0" // 指定node版本
+}
+
+tasks.register('yarnBuild', YarnTask) {
+    group = 'yarn'
+    args = ['build']
+}
+
+processResources {
+    dependsOn yarnBuild
+    from('dist') {
+        into 'static'
+    }
+}
