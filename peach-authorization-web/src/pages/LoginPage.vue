@@ -11,7 +11,7 @@ const router = useRouter()
 const route = useRoute()
 
 const loginParams = ref<LoginParams>({
-  name: "",
+  accountName: "",
   password: "",
 })
 
@@ -31,8 +31,8 @@ const onSubmit = () => {
 }
 
 const onClickToRegister = () => {
-  if (loginParams.value.name) {
-    router.push({path: "/register", query: {name: loginParams.value.name}})
+  if (loginParams.value.accountName) {
+    router.push({path: "/register", query: {name: loginParams.value.accountName}})
     return
   } else {
     router.push({path: "/register"})
@@ -47,7 +47,7 @@ onMounted(() => {
 
   const query = route.query
   if (query && query.name) {
-    loginParams.value.name = query.name as string
+    loginParams.value.accountName = query.name as string
     passwordInput.value.focus()
   }
 })
@@ -58,7 +58,7 @@ onMounted(() => {
     <el-form-item label="账户">
       <el-input
           ref="nameInput"
-          v-model="loginParams.name"
+          v-model="loginParams.accountName"
           @keyup.enter="passwordInput.focus()"
       />
     </el-form-item>

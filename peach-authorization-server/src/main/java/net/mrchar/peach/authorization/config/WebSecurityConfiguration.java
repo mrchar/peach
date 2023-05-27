@@ -55,7 +55,10 @@ public class WebSecurityConfiguration {
             configurer.accessDeniedHandler(new RestAccessDeniedHandler());
         });
 
-        httpSecurity.apply(new RestFormLoginConfigurer<>());
+        httpSecurity
+                .apply(new RestFormLoginConfigurer<>())
+                .usernameParameter("accountName")
+                .passwordParameter("password");
         httpSecurity.formLogin().disable();
         httpSecurity.httpBasic().disable();
 

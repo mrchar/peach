@@ -2,7 +2,7 @@ import axios from "axios"
 import {Account, Profile, User} from "../types"
 
 interface NameAndPasswordParams {
-    name: string,
+    accountName: string,
     password: string
 }
 

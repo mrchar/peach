@@ -7,7 +7,7 @@ const router = useRouter()
 const route = useRoute()
 
 const registerParams = ref<LoginParams>({
-  name: "",
+  accountName: "",
   password: "",
 })
 
@@ -26,7 +26,7 @@ onMounted(() => {
   nameInput.value.focus()
   const query = route.query
   if (query && query.name) {
-    registerParams.value.name = query.name as string
+    registerParams.value.accountName = query.name as string
     passwordInput.value.focus()
   }
 })
@@ -37,7 +37,7 @@ onMounted(() => {
     <el-form-item label="账户名">
       <el-input
           ref="nameInput"
-          v-model="registerParams.name"
+          v-model="registerParams.accountName"
           @keyup.enter="passwordInput.focus()"
       ></el-input>
     </el-form-item>
