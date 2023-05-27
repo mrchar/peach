@@ -32,7 +32,7 @@ export interface RegisterProfileParams extends User {
     smsAuthToken: string
 }
 
-export function getProfile(): Promise<Profile> {
+export function getProfile(): Promise<Account> {
     return axios.get("/self/profile")
 }
 
@@ -41,7 +41,7 @@ export function getProfile(): Promise<Profile> {
  *
  * @param params 用户信息
  */
-export function registerProfile(params: RegisterProfileParams): Promise<User> {
+export function registerProfile(params: RegisterProfileParams): Promise<Account> {
     return axios.put("/self/profile", params)
 }
 

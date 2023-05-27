@@ -18,13 +18,15 @@ const loginParams = ref<LoginParams>({
 // 点击登录按钮时调用
 const onSubmit = () => {
   api.auth.login(loginParams.value)
-      .then((res) => {
+      .then(() => {
+        console.debug("登录成功")
         store.setAuthenticated("Authenticated")
-            .then(() => {
-              if (!res.user || !res.user.name) {
+            .then((account) => {
+              console.debug("获取用户信息成功", account)
+              if (account && (!account.user || !account.user.name)) {
                 router.push({path: "/profile/register"})
               } else {
-                router.push({path: "/profile", query: res as any})
+                router.push({path: "/profile", query: account as any})
               }
             })
       })
